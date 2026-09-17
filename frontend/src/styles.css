@@ -1,0 +1,317 @@
+:root {
+  --qc-navy: #0b132b;
+  --qc-navy-light: #1c2541;
+  --qc-emerald: #10b981;
+  --qc-emerald-hover: #059669;
+  --qc-emerald-soft: rgba(16, 18, 129, 0.1);
+  --qc-amber: #f59e0b;
+  --qc-danger: #ef4444;
+  --qc-bg-light: #f8fafc;
+  --qc-card-bg: #ffffff;
+  --qc-text-main: #0f172a;
+  --qc-text-muted: #64748b;
+  --qc-border-color: #e2e8f0;
+  --qc-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
+  --qc-shadow-hover: 0 20px 30px -10px rgba(15, 23, 42, 0.12);
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--qc-bg-light);
+  color: var(--qc-text-main);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6, .navbar-brand {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Custom Navbar */
+.qc-navbar {
+  background: var(--qc-navy);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 0.85rem 0;
+}
+
+.qc-brand {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.qc-brand span {
+  color: var(--qc-emerald);
+}
+
+.qc-nav-link {
+  color: #cbd5e1;
+  font-weight: 500;
+  padding: 0.5rem 1rem !important;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.qc-nav-link:hover, .qc-nav-link.active {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.qc-badge-role {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, var(--qc-navy) 0%, var(--qc-navy-light) 100%);
+  color: #ffffff;
+  padding: 4.5rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+  pointer-events: none;
+}
+
+.hero-headline {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+}
+
+.hero-headline span {
+  color: var(--qc-emerald);
+}
+
+.hero-subheading {
+  font-size: 1.2rem;
+  color: #94a3b8;
+  margin-bottom: 2rem;
+}
+
+/* Custom Buttons */
+.btn-qc-emerald {
+  background-color: var(--qc-emerald);
+  color: #ffffff;
+  font-weight: 600;
+  padding: 0.65rem 1.4rem;
+  border-radius: 10px;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+.btn-qc-emerald:hover {
+  background-color: var(--qc-emerald-hover);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+}
+
+.btn-qc-outline {
+  border: 2px solid var(--qc-emerald);
+  color: var(--qc-emerald);
+  font-weight: 600;
+  padding: 0.6rem 1.3rem;
+  border-radius: 10px;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-qc-outline:hover {
+  background: var(--qc-emerald);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+/* Custom Cards */
+.qc-card {
+  background: var(--qc-card-bg);
+  border-radius: 16px;
+  border: 1px solid var(--qc-border-color);
+  box-shadow: var(--qc-shadow);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.qc-card:hover {
+  box-shadow: var(--qc-shadow-hover);
+  transform: translateY(-4px);
+}
+
+.qc-card-img-wrapper {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.qc-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.qc-card:hover .qc-card-img {
+  transform: scale(1.05);
+}
+
+.qc-sport-pill {
+  background: rgba(11, 19, 43, 0.85);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.qc-rating-badge {
+  background: #fef3c7;
+  color: #b45309;
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Time Slot Buttons */
+.slot-btn {
+  padding: 0.75rem 0.5rem;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border: 2px solid var(--qc-border-color);
+  background: #ffffff;
+  color: var(--qc-text-main);
+  transition: all 0.2s ease;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+}
+
+.slot-btn:hover:not(:disabled) {
+  border-color: var(--qc-emerald);
+  color: var(--qc-emerald);
+  background: var(--qc-emerald-soft);
+}
+
+.slot-btn.selected {
+  background: var(--qc-emerald) !important;
+  color: #ffffff !important;
+  border-color: var(--qc-emerald) !important;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.slot-btn:disabled, .slot-btn.unavailable {
+  background: #f1f5f9 !important;
+  color: #94a3b8 !important;
+  border-color: #e2e8f0 !important;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Category Card */
+.category-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  border: 1px solid var(--qc-border-color);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.category-card:hover {
+  border-color: var(--qc-emerald);
+  transform: translateY(-4px);
+  box-shadow: var(--qc-shadow-hover);
+}
+
+.category-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.1);
+  color: var(--qc-emerald);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  margin: 0 auto 1rem auto;
+}
+
+/* Status Badges */
+.status-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  display: inline-block;
+}
+
+.status-badge.confirmed, .status-badge.approved, .status-badge.active {
+  background: #d1fae5;
+  color: #047857;
+}
+
+.status-badge.pending {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+.status-badge.rejected, .status-badge.cancelled, .status-badge.banned {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+/* Footer */
+.qc-footer {
+  background: var(--qc-navy);
+  color: #94a3b8;
+  margin-top: auto;
+  padding: 3rem 0 1.5rem 0;
+}
+
+.qc-footer h5 {
+  color: #ffffff;
+  margin-bottom: 1.25rem;
+}
+
+.qc-footer a {
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.qc-footer a:hover {
+  color: var(--qc-emerald);
+}
