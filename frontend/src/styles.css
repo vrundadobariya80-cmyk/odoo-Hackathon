@@ -13,12 +13,17 @@
   --qc-border-color: #e2e8f0;
   --qc-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.05), 0 8px 10px -6px rgba(15, 23, 42, 0.05);
   --qc-shadow-hover: 0 20px 30px -10px rgba(15, 23, 42, 0.12);
-  --font-heading: 'Outfit', sans-serif;
-  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+html {
+  font-size: 14.5px;
 }
 
 body {
   font-family: var(--font-body);
+  font-size: 0.95rem;
   background-color: var(--qc-bg-light);
   color: var(--qc-text-main);
   min-height: 100vh;
@@ -26,9 +31,17 @@ body {
   flex-direction: column;
 }
 
+h1, .h1 { font-size: 2.1rem; }
+h2, .h2 { font-size: 1.65rem; }
+h3, .h3 { font-size: 1.35rem; }
+h4, .h4 { font-size: 1.15rem; }
+h5, .h5 { font-size: 1.02rem; }
+h6, .h6 { font-size: 0.88rem; }
+
 h1, h2, h3, h4, h5, h6, .navbar-brand {
   font-family: var(--font-heading);
   font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 #root {
@@ -41,11 +54,11 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 .qc-navbar {
   background: var(--qc-navy);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  padding: 0.85rem 0;
+  padding: 0.75rem 0;
 }
 
 .qc-brand {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 800;
   color: #ffffff;
   display: flex;
@@ -60,7 +73,8 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 .qc-nav-link {
   color: #cbd5e1;
   font-weight: 500;
-  padding: 0.5rem 1rem !important;
+  font-size: 0.9rem;
+  padding: 0.45rem 0.85rem !important;
   border-radius: 8px;
   transition: all 0.2s ease;
 }
@@ -71,9 +85,9 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 }
 
 .qc-badge-role {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
-  padding: 0.25rem 0.6rem;
+  padding: 0.2rem 0.55rem;
   border-radius: 20px;
   text-transform: uppercase;
 }
@@ -82,7 +96,7 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 .hero-section {
   background: linear-gradient(135deg, var(--qc-navy) 0%, var(--qc-navy-light) 100%);
   color: #ffffff;
-  padding: 4.5rem 0;
+  padding: 3.5rem 0;
   position: relative;
   overflow: hidden;
 }
@@ -99,10 +113,10 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 }
 
 .hero-headline {
-  font-size: 3rem;
+  font-size: 2.35rem;
   font-weight: 800;
-  line-height: 1.15;
-  margin-bottom: 1.25rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
 }
 
 .hero-headline span {
@@ -110,9 +124,9 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
 }
 
 .hero-subheading {
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   color: #94a3b8;
-  margin-bottom: 2rem;
+  margin-bottom: 1.75rem;
 }
 
 /* Custom Buttons */
@@ -293,25 +307,166 @@ h1, h2, h3, h4, h5, h6, .navbar-brand {
   color: #b91c1c;
 }
 
-/* Footer */
+/* Redesigned Footer */
 .qc-footer {
-  background: var(--qc-navy);
+  background: linear-gradient(180deg, #0b132b 0%, #060a17 100%);
   color: #94a3b8;
   margin-top: auto;
-  padding: 3rem 0 1.5rem 0;
+  padding: 3.5rem 0 1.75rem 0;
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
-.qc-footer h5 {
+.qc-footer-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--qc-emerald) 50%, transparent 100%);
+  box-shadow: 0 0 20px 2px var(--qc-emerald);
+  opacity: 0.6;
+}
+
+.qc-footer-logo-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--qc-emerald) 0%, #059669 100%);
   color: #ffffff;
-  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
 }
 
-.qc-footer a {
+.qc-footer-brand-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.qc-footer-brand-name span {
+  color: var(--qc-emerald);
+}
+
+.qc-badge-live {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--qc-emerald);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  padding: 0.2rem 0.5rem;
+  border-radius: 20px;
+}
+
+.qc-footer-desc {
+  font-size: 0.88rem;
+  line-height: 1.6;
   color: #94a3b8;
+}
+
+.qc-social-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.qc-social-btn:hover {
+  background: var(--qc-emerald);
+  color: #ffffff;
+  border-color: var(--qc-emerald);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+}
+
+.qc-footer-heading {
+  font-family: var(--font-heading);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 1.1rem;
+  text-transform: uppercase;
+}
+
+.qc-footer-links li {
+  margin-bottom: 0.6rem;
+}
+
+.qc-footer-links a {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.qc-footer-links a i {
+  font-size: 0.7rem;
+  color: var(--qc-emerald);
+  transition: transform 0.2s ease;
+}
+
+.qc-footer-links a:hover {
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+.qc-footer-links a:hover i {
+  transform: translateX(2px);
+}
+
+.qc-footer-contact-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 12px;
+  backdrop-filter: blur(8px);
+}
+
+.qc-contact-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(16, 185, 129, 0.12);
+  color: var(--qc-emerald);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+}
+
+.qc-footer-badge-box {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0;
+}
+
+.qc-footer-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.qc-footer-sublink {
+  color: #64748b;
   text-decoration: none;
   transition: color 0.2s;
 }
 
-.qc-footer a:hover {
+.qc-footer-sublink:hover {
   color: var(--qc-emerald);
 }

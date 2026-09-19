@@ -48,6 +48,10 @@ const VenueDetails = () => {
     }
   };
 
+  const fullLocationQuery = `${facility.name}, ${facility.address}, ${facility.location}`;
+  const mapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(fullLocationQuery)}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+  const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullLocationQuery)}`;
+
   return (
     <div className="py-4">
       <div className="container">
@@ -83,7 +87,9 @@ const VenueDetails = () => {
                 </div>
 
                 <h2 className="fw-bold mb-2">{facility.name}</h2>
-                <p className="text-muted mb-3"><i className="bi bi-geo-alt-fill text-danger me-1"></i> {facility.address}, {facility.location}</p>
+                <p className="text-muted mb-3">
+                  <i className="bi bi-geo-alt-fill text-danger me-1"></i> {facility.address}, {facility.location}
+                </p>
                 <p className="text-secondary small leading-relaxed mb-4">{facility.description}</p>
               </div>
 
@@ -138,6 +144,74 @@ const VenueDetails = () => {
               ))}
             </div>
           )}
+        </div>
+
+        {/* Location & Interactive Map Section */}
+        <div className="qc-card p-4 p-md-5 mb-5">
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+            <div>
+              <h4 className="fw-bold mb-1">
+                <i className="bi bi-map text-success me-2"></i>Location & Directions
+              </h4>
+              <p className="text-muted small mb-0">
+                Easily navigate to {facility.name} using Google Maps directions below.
+              </p>
+            </div>
+            <a
+              href={directionsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-qc-emerald"
+            >
+              <i className="bi bi-box-arrow-up-right me-2"></i>Get Directions in Google Maps
+            </a>
+          </div>
+
+          <div className="row g-4 align-items-center">
+            <div className="col-lg-5">
+              <div className="p-3 bg-light rounded-3 border">
+                <div className="d-flex align-items-start gap-3 mb-3">
+                  <div className="qc-contact-icon flex-shrink-0 mt-1">
+                    <i className="bi bi-geo-alt-fill text-danger fs-5"></i>
+                  </div>
+                  <div>
+                    <h6 className="fw-bold mb-1">Full Venue Address</h6>
+                    <p className="text-secondary small mb-0">{facility.address}</p>
+                    <p className="fw-semibold small text-dark mb-0">{facility.location}, Gujarat, India</p>
+                  </div>
+                </div>
+
+                <div className="border-top pt-3">
+                  <div className="d-flex align-items-center justify-content-between text-muted small mb-2">
+                    <span><i className="bi bi-clock me-1"></i> Opening Hours:</span>
+                    <strong className="text-dark">06:00 AM - 10:00 PM</strong>
+                  </div>
+                  <div className="d-flex align-items-center justify-content-between text-muted small">
+                    <span><i className="bi bi-p-circle me-1"></i> Parking Available:</span>
+                    <strong className="text-success">Yes (Free)</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="col-lg-7">
+              <div className="rounded-3 overflow-hidden border shadow-sm" style={{ height: '300px' }}>
+                <iframe
+                  title={`Map location for ${facility.name}`}
+                  width="100%"
+                  height="100%"
+                  frameBorder="0"
+                  scrolling="no"
+                  marginHeight="0"
+                  marginWidth="0"
+                  src={mapEmbedUrl}
+                  style={{ border: 0 }}
+                  allowFullScreen=""
+                  loading="lazy"
+                ></iframe>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Customer Reviews Section */}
