@@ -169,7 +169,7 @@ const VenueDetails = () => {
 
           <div className="row g-4 align-items-center">
             <div className="col-lg-5">
-              <div className="p-3 bg-light rounded-3 border">
+              <div className="p-3 bg-light rounded-3 border mb-3">
                 <div className="d-flex align-items-start gap-3 mb-3">
                   <div className="qc-contact-icon flex-shrink-0 mt-1">
                     <i className="bi bi-geo-alt-fill text-danger fs-5"></i>
@@ -191,6 +191,28 @@ const VenueDetails = () => {
                     <strong className="text-success">Yes (Free)</strong>
                   </div>
                 </div>
+              </div>
+
+              {/* Facility Owner Contact Card */}
+              <div className="p-3 bg-white rounded-3 border border-2 border-primary-subtle shadow-sm">
+                <div className="d-flex align-items-center gap-3">
+                  <div className="avatar-placeholder rounded-circle bg-primary-subtle text-primary p-3 d-flex align-items-center justify-content-center fw-bold fs-5" style={{ width: '48px', height: '48px' }}>
+                    <i className="bi bi-person-fill"></i>
+                  </div>
+                  <div className="flex-grow-1">
+                    <span className="badge bg-primary-subtle text-primary small mb-1">Facility Manager & Owner</span>
+                    <h6 className="fw-bold mb-0 text-dark">{facility.owner_name || 'QuickCourt Partner'}</h6>
+                    <small className="text-muted d-block"><i className="bi bi-envelope-fill me-1 text-emerald"></i>{facility.owner_email || 'contact@quickcourt.com'}</small>
+                  </div>
+                </div>
+                {facility.owner_email && (
+                  <a
+                    href={`mailto:${facility.owner_email}?subject=Inquiry regarding ${encodeURIComponent(facility.name)}`}
+                    className="btn btn-outline-primary btn-sm w-100 mt-3 rounded-pill fw-semibold"
+                  >
+                    <i className="bi bi-envelope-at-fill me-1"></i> Email Venue Owner
+                  </a>
+                )}
               </div>
             </div>
 

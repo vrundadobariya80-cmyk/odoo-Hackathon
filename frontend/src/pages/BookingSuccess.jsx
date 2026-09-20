@@ -9,6 +9,8 @@ const BookingSuccess = () => {
     return <Navigate to="/my-bookings" replace />;
   }
 
+  const isCash = (booking.payment_method || '').toLowerCase().includes('cash') || (booking.payment_status || '').toLowerCase().includes('venue');
+
   return (
     <div className="container py-5 my-auto">
       <div className="row justify-content-center">
@@ -16,16 +18,20 @@ const BookingSuccess = () => {
           <div className="qc-card p-4 p-md-5 text-center">
             <div className="mb-4">
               <div
-                className="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center shadow-lg"
+                className={`text-white rounded-circle d-inline-flex align-items-center justify-content-center shadow-lg ${isCash ? 'bg-warning' : 'bg-success'}`}
                 style={{ width: '80px', height: '80px' }}
               >
                 <i className="bi bi-check-lg display-4"></i>
               </div>
             </div>
 
-            <h2 className="fw-extrabold text-dark mb-1">Booking Confirmed!</h2>
+            <h2 className="fw-extrabold text-dark mb-1">
+              {isCash ? 'Court Reserved! (Pay at Venue)' : 'Booking Confirmed!'}
+            </h2>
             <p className="text-muted small mb-4">
-              Your court time slot has been successfully locked and payment recorded.
+              {isCash
+                ? `Your time slot is locked! Please pay ₹${booking.total_price} in cash directly at the venue upon arrival.`
+                : 'Your court time slot has been successfully locked and online payment recorded.'}
             </p>
 
             <div className="p-4 bg-light rounded-4 text-start mb-4">
@@ -52,13 +58,24 @@ const BookingSuccess = () => {
                   <strong className="text-success">{booking.booking_date} ({booking.start_time} - {booking.end_time})</strong>
                 </div>
                 <div className="col-6">
-                  <span className="text-muted d-block">Total Paid</span>
-                  <strong className="fs-5 text-success">₹{booking.total_price}</strong>
+                  <span className="text-muted d-block">{isCash ? 'Payable at Venue' : 'Total Paid'}</span>
+                  <strong className={`fs-5 ${isCash ? 'text-warning-emphasis' : 'text-success'}`}>₹{booking.total_price}</strong>
                 </div>
                 <div className="col-6">
-                  <span className="text-muted d-block">Payment Status</span>
-                  <span className="badge bg-success">{booking.payment_status}</span>
+                  <span className="text-muted d-block">Payment Method</span>
+                  {isCash ? (
+                    <span className="badge bg-warning text-dark border border-warning"><i className="bi bi-cash-stack me-1"></i>Pay at Venue</span>
+                  ) : (
+                    <span className="badge bg-success"><i className="bi bi-check-circle-fill me-1"></i>{booking.payment_method || 'Paid Online'}</span>
+                  )}
                 </div>
+                {booking.owner_name && (
+                  <div className="col-12 mt-2 pt-2 border-top">
+                    <span className="text-muted d-block">Venue Manager & Owner Contact:</span>
+                    <strong className="text-dark"><i className="bi bi-person-fill text-primary me-1"></i>{booking.owner_name}</strong>
+                    <span className="text-muted ms-2">({booking.owner_email})</span>
+                  </div>
+                )}
               </div>
             </div>
 

@@ -168,19 +168,39 @@ const Payment = () => {
                   </div>
                 )}
 
-                <div className="d-flex align-items-center justify-content-between p-3 bg-white border border-2 border-success rounded-3 mb-4">
+                <div className={`d-flex align-items-center justify-content-between p-3 bg-white border border-2 rounded-3 mb-4 ${paymentMethod === 'Cash' ? 'border-warning' : 'border-success'}`}>
                   <div>
-                    <span className="text-muted small d-block">Total Payable Amount</span>
-                    <span className="fs-3 fw-extrabold text-success">₹{court.price_per_hour}</span>
+                    <span className="text-muted small d-block">
+                      {paymentMethod === 'Cash' ? 'Amount Payable at Venue' : 'Total Payable Amount'}
+                    </span>
+                    <span className={`fs-3 fw-extrabold ${paymentMethod === 'Cash' ? 'text-warning-emphasis' : 'text-success'}`}>
+                      ₹{court.price_per_hour}
+                    </span>
                   </div>
-                  <span className="badge bg-success">Paid (Demo)</span>
+                  {paymentMethod === 'Cash' ? (
+                    <span className="badge bg-warning text-dark px-3 py-2 fw-bold fs-6">
+                      <i className="bi bi-cash-stack me-1"></i> Pay at Venue (Cash)
+                    </span>
+                  ) : paymentMethod === 'Card' ? (
+                    <span className="badge bg-primary text-white px-3 py-2 fw-bold fs-6">
+                      <i className="bi bi-credit-card-fill me-1"></i> Credit / Debit Card
+                    </span>
+                  ) : (
+                    <span className="badge bg-success text-white px-3 py-2 fw-bold fs-6">
+                      <i className="bi bi-qr-code me-1"></i> UPI Instant
+                    </span>
+                  )}
                 </div>
 
-                <button type="submit" className="btn btn-qc-emerald w-100 btn-lg shadow-sm" disabled={loading}>
+                <button type="submit" className={`btn w-100 btn-lg shadow-sm ${paymentMethod === 'Cash' ? 'btn-warning text-dark fw-bold' : 'btn-qc-emerald'}`} disabled={loading}>
                   {loading ? (
                     <>
                       <span className="spinner-border spinner-border-sm me-2" role="status"></span>
-                      Confirming Booking...
+                      Confirming Reservation...
+                    </>
+                  ) : paymentMethod === 'Cash' ? (
+                    <>
+                      <i className="bi bi-geo-alt-fill me-2"></i> Confirm Booking (Pay ₹{court.price_per_hour} at Venue)
                     </>
                   ) : (
                     <>

@@ -110,6 +110,18 @@ def init_db():
         )
     ''')
 
+    # Ensure payment_method column exists in bookings table
+    try:
+        cursor.execute("ALTER TABLE bookings ADD COLUMN payment_method TEXT DEFAULT 'UPI Instant'")
+    except Exception:
+        pass
+
+    # Migrate any legacy dummy 'Paid (Demo)' records to proper payment methods
+    try:
+        cursor.execute("UPDATE bookings SET payment_status = 'Paid (Online)', payment_method = 'UPI Instant' WHERE payment_status = 'Paid (Demo)' OR payment_method = 'UPI'")
+    except Exception:
+        pass
+
     conn.commit()
     conn.close()
 

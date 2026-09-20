@@ -3,11 +3,12 @@ import React from 'react';
 const BookingCard = ({ booking, onCancel, onReview }) => {
   const {
     id, facility_name, location, facility_image, court_name, sport_type,
-    booking_date, start_time, end_time, total_price, status, payment_status,
+    booking_date, start_time, end_time, total_price, status, payment_status, payment_method,
     can_cancel, review_id
   } = booking;
 
   const statusClass = status === 'Confirmed' ? 'confirmed' : status === 'Cancelled' ? 'cancelled' : 'pending';
+  const isCash = (payment_method || '').toLowerCase().includes('cash') || (payment_status || '').toLowerCase().includes('venue');
 
   return (
     <div className="qc-card p-3 mb-3">
@@ -22,14 +23,33 @@ const BookingCard = ({ booking, onCancel, onReview }) => {
         </div>
 
         <div className="col-md-6">
-          <div className="d-flex align-items-center gap-2 mb-1">
+          <div className="d-flex align-items-center flex-wrap gap-2 mb-1">
             <span className="badge bg-dark">ID: #{id}</span>
             <span className={`status-badge ${statusClass}`}>{status}</span>
-            <span className="badge bg-light text-dark border">{payment_status}</span>
+            {isCash ? (
+              <span className="badge bg-warning-subtle text-dark border border-warning">
+                <i className="bi bi-cash-stack me-1"></i> Pay at Venue (Cash)
+              </span>
+            ) : (payment_method || '').toLowerCase().includes('card') ? (
+              <span className="badge bg-primary-subtle text-primary border border-primary">
+                <i className="bi bi-credit-card-fill me-1"></i> Credit / Debit Card
+              </span>
+            ) : (
+              <span className="badge bg-success-subtle text-success border border-success">
+                <i className="bi bi-qr-code me-1"></i> {payment_method || 'UPI Instant'}
+              </span>
+            )}
           </div>
 
           <h5 className="fw-bold mb-1 text-dark">{facility_name}</h5>
-          <p className="text-muted small mb-2"><i className="bi bi-geo-alt text-danger me-1"></i> {location}</p>
+          <p className="text-muted small mb-2">
+            <i className="bi bi-geo-alt text-danger me-1"></i> {location}
+            {booking.owner_name && (
+              <span className="ms-2 border-start ps-2 text-dark">
+                <i className="bi bi-person-fill text-primary me-1"></i> Owner: <strong>{booking.owner_name}</strong> ({booking.owner_email})
+              </span>
+            )}
+          </p>
 
           <div className="d-flex flex-wrap gap-3 small fw-semibold text-secondary">
             <span><i className="bi bi-trophy text-warning me-1"></i> {sport_type}</span>
@@ -41,8 +61,8 @@ const BookingCard = ({ booking, onCancel, onReview }) => {
 
         <div className="col-md-3 text-md-end d-flex flex-column justify-content-between h-100">
           <div>
-            <span className="text-muted small d-block">Total Paid</span>
-            <span className="fs-4 fw-bold text-success">₹{total_price}</span>
+            <span className="text-muted small d-block">{isCash ? 'Payable at Venue' : 'Total Paid'}</span>
+            <span className={`fs-4 fw-bold ${isCash ? 'text-warning-emphasis' : 'text-success'}`}>₹{total_price}</span>
           </div>
 
           <div className="mt-3 d-flex flex-column gap-2 align-items-md-end">

@@ -217,17 +217,17 @@ def seed_database():
 
     # Sample Bookings
     bookings_sample = [
-        (user_id, facility_ids[0], court_ids[0], "2026-09-20", "18:00", "19:00", 1200.0, "Confirmed", "Paid (Demo)"),
-        (user_id, facility_ids[1], court_ids[3], "2026-09-21", "07:00", "08:00", 450.0, "Confirmed", "Paid (Demo)"),
-        (user2_id, facility_ids[2], court_ids[6], "2026-09-18", "19:00", "20:00", 600.0, "Completed", "Paid (Demo)"),
-        (user2_id, facility_ids[3], court_ids[8], "2026-09-19", "08:00", "09:00", 750.0, "Confirmed", "Paid (Demo)")
+        (user_id, facility_ids[0], court_ids[0], "2026-09-20", "18:00", "19:00", 1200.0, "Confirmed", "Paid (Online)", "UPI Instant"),
+        (user_id, facility_ids[1], court_ids[3], "2026-09-21", "07:00", "08:00", 450.0, "Confirmed", "Paid (Online)", "Credit / Debit Card"),
+        (user2_id, facility_ids[2], court_ids[6], "2026-09-18", "19:00", "20:00", 600.0, "Completed", "Paid (Online)", "UPI Instant"),
+        (user2_id, facility_ids[3], court_ids[8], "2026-09-19", "08:00", "09:00", 750.0, "Confirmed", "Pending (Pay at Venue)", "Cash at Venue")
     ]
 
     booking_ids = []
     for b in bookings_sample:
         cursor.execute('''
-            INSERT INTO bookings (user_id, facility_id, court_id, booking_date, start_time, end_time, total_price, status, payment_status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO bookings (user_id, facility_id, court_id, booking_date, start_time, end_time, total_price, status, payment_status, payment_method)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', b)
         booking_ids.append(cursor.lastrowid)
 

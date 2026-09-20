@@ -372,17 +372,30 @@ def create_booking(current_user):
 
     total_price = court_dict['price_per_hour']
 
+    raw_method = data.get('payment_method', 'UPI')
+    if raw_method == 'Cash':
+        payment_method = 'Cash at Venue'
+        payment_status = 'Pending (Pay at Venue)'
+    elif raw_method == 'Card':
+        payment_method = 'Credit / Debit Card'
+        payment_status = 'Paid (Online)'
+    else:
+        payment_method = 'UPI Instant'
+        payment_status = 'Paid (Online)'
+
     booking_id = execute_db('''
-        INSERT INTO bookings (user_id, facility_id, court_id, booking_date, start_time, end_time, total_price, status, payment_status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, 'Confirmed', 'Paid (Demo)')
-    ''', (current_user['id'], facility_id, court_id, booking_date, start_time, end_time, total_price))
+        INSERT INTO bookings (user_id, facility_id, court_id, booking_date, start_time, end_time, total_price, status, payment_status, payment_method)
+        VALUES (?, ?, ?, ?, ?, ?, ?, 'Confirmed', ?, ?)
+    ''', (current_user['id'], facility_id, court_id, booking_date, start_time, end_time, total_price, payment_status, payment_method))
 
     booking = query_db('''
         SELECT b.*, f.name as facility_name, f.location, f.image as facility_image,
-               c.name as court_name, c.sport_type
+               c.name as court_name, c.sport_type,
+               u.full_name as owner_name, u.email as owner_email
         FROM bookings b
         JOIN facilities f ON b.facility_id = f.id
         JOIN courts c ON b.court_id = c.id
+        JOIN users u ON f.owner_id = u.id
         WHERE b.id = ?
     ''', (booking_id,), one=True)
 
@@ -394,10 +407,12 @@ def get_user_bookings(current_user):
     bookings = dicts_from_rows(query_db('''
         SELECT b.*, f.name as facility_name, f.location, f.image as facility_image,
                c.name as court_name, c.sport_type,
+               u.full_name as owner_name, u.email as owner_email,
                (SELECT id FROM reviews WHERE booking_id = b.id) as review_id
         FROM bookings b
         JOIN facilities f ON b.facility_id = f.id
         JOIN courts c ON b.court_id = c.id
+        JOIN users u ON f.owner_id = u.id
         WHERE b.user_id = ?
         ORDER BY b.booking_date DESC, b.start_time DESC
     ''', (current_user['id'],)))
