@@ -66,6 +66,8 @@ def seed_database():
             "sports": "Football, Cricket",
             "amenities": "Floodlights, Changing Rooms, Free Parking, Refreshment Kiosk, Shower",
             "image": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1000&q=80",
+            "latitude": 23.0396,
+            "longitude": 72.5020,
             "status": "Approved"
         },
         {
@@ -77,6 +79,8 @@ def seed_database():
             "sports": "Badminton, Table Tennis",
             "amenities": "AC, Pro Shop, Locker Room, Water Cooler, Equipment Rental",
             "image": "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1000&q=80",
+            "latitude": 23.0384,
+            "longitude": 72.5119,
             "status": "Approved"
         },
         {
@@ -88,6 +92,8 @@ def seed_database():
             "sports": "Cricket, Basketball, Football",
             "amenities": "Floodlights, Grandstand Seating, Parking, Cafeteria, First Aid",
             "image": "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1000&q=80",
+            "latitude": 23.0274,
+            "longitude": 72.5074,
             "status": "Approved"
         },
         {
@@ -99,6 +105,8 @@ def seed_database():
             "sports": "Tennis",
             "amenities": "Coach Available, Floodlights, Ball Machine, Lounge Area",
             "image": "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?auto=format&fit=crop&w=1000&q=80",
+            "latitude": 23.0287,
+            "longitude": 72.5178,
             "status": "Approved"
         },
         {
@@ -110,6 +118,8 @@ def seed_database():
             "sports": "Badminton, Table Tennis",
             "amenities": "Synthetic Flooring, AC, Snack Bar, Wifi, Lockers",
             "image": "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1000&q=80",
+            "latitude": 23.0122,
+            "longitude": 72.5109,
             "status": "Approved"
         },
         {
@@ -121,6 +131,8 @@ def seed_database():
             "sports": "Basketball, Tennis",
             "amenities": "Night Lighting, Refreshment Stall, Restrooms, Parking",
             "image": "https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=1000&q=80",
+            "latitude": 23.0350,
+            "longitude": 72.5293,
             "status": "Approved"
         },
         {
@@ -132,6 +144,8 @@ def seed_database():
             "sports": "Table Tennis, Badminton",
             "amenities": "Stiga Tables, Yonex Nets, Air Conditioning, Beverage Station",
             "image": "https://images.unsplash.com/photo-1609710228159-0fa9bd7c0827?auto=format&fit=crop&w=1000&q=80",
+            "latitude": 23.0475,
+            "longitude": 72.5290,
             "status": "Approved"
         },
         {
@@ -143,6 +157,8 @@ def seed_database():
             "sports": "Cricket, Football",
             "amenities": "LED Lights, Seating Area, Changing Room, Canteen",
             "image": "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=1000&q=80",
+            "latitude": 23.0373,
+            "longitude": 72.5610,
             "status": "Approved"
         },
         {
@@ -154,6 +170,8 @@ def seed_database():
             "sports": "Football, Tennis",
             "amenities": "EV Charging, Green Pavilion, Floodlights, Locker Room",
             "image": "https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&w=1000&q=80",
+            "latitude": 23.0336,
+            "longitude": 72.4634,
             "status": "Pending"
         }
     ]
@@ -161,9 +179,9 @@ def seed_database():
     facility_ids = []
     for f in facilities_data:
         cursor.execute('''
-            INSERT INTO facilities (owner_id, name, description, address, location, sports, amenities, image, status)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-        ''', (f["owner_id"], f["name"], f["description"], f["address"], f["location"], f["sports"], f["amenities"], f["image"], f["status"]))
+            INSERT INTO facilities (owner_id, name, description, address, location, sports, amenities, image, latitude, longitude, status)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (f["owner_id"], f["name"], f["description"], f["address"], f["location"], f["sports"], f["amenities"], f["image"], f["latitude"], f["longitude"], f["status"]))
         facility_ids.append(cursor.lastrowid)
 
     conn.commit()

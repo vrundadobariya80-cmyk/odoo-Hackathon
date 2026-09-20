@@ -48,8 +48,12 @@ const VenueDetails = () => {
     }
   };
 
-  const fullLocationQuery = `${facility.name}, ${facility.address}, ${facility.location}`;
-  const mapEmbedUrl = `https://maps.google.com/maps?q=${encodeURIComponent(fullLocationQuery)}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+  const lat = facility.latitude || 23.0225;
+  const lng = facility.longitude || 72.5714;
+  const delta = 0.012;
+  const bbox = `${lng - delta}%2C${lat - delta}%2C${lng + delta}%2C${lat + delta}`;
+  const mapEmbedUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${lat}%2C${lng}`;
+  const fullLocationQuery = `${facility.name}, ${facility.address}, ${facility.location}, Ahmedabad`;
   const directionsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullLocationQuery)}`;
 
   return (

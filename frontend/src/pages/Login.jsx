@@ -33,8 +33,12 @@ const Login = () => {
       const resp = err.response?.data;
       if (resp?.needs_verification) {
         navigate(`/verify-otp?email=${encodeURIComponent(resp.email)}`);
+      } else if (resp?.error) {
+        setError(resp.error);
+      } else if (err.code === 'ERR_NETWORK' || !err.response) {
+        setError('Cannot connect to server. Please check if the backend server is running.');
       } else {
-        setError(resp?.error || 'Login failed. Please check your credentials.');
+        setError('Login failed. Please check your credentials.');
       }
     } finally {
       setLoading(false);

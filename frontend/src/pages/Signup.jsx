@@ -54,7 +54,13 @@ const Signup = () => {
       const demoOtp = res.data.otp;
       navigate(`/verify-otp?email=${encodeURIComponent(email)}&otp=${encodeURIComponent(demoOtp)}`);
     } catch (err) {
-      setError(err.response?.data?.error || 'Registration failed. Please try again.');
+      if (err.response?.data?.error) {
+        setError(err.response.data.error);
+      } else if (err.code === 'ERR_NETWORK' || !err.response) {
+        setError('Cannot connect to server. Please check if the backend server is running.');
+      } else {
+        setError('Registration failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }

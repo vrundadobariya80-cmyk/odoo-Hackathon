@@ -39,6 +39,8 @@ def init_db():
             sports TEXT NOT NULL,
             amenities TEXT NOT NULL,
             image TEXT NOT NULL,
+            latitude REAL DEFAULT 23.0225,
+            longitude REAL DEFAULT 72.5714,
             status TEXT DEFAULT 'Pending',
             rejection_comment TEXT DEFAULT '',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -109,6 +111,16 @@ def init_db():
             FOREIGN KEY (court_id) REFERENCES courts (id) ON DELETE CASCADE
         )
     ''')
+
+    # Ensure latitude & longitude columns exist in facilities table
+    try:
+        cursor.execute("ALTER TABLE facilities ADD COLUMN latitude REAL DEFAULT 23.0225")
+    except Exception:
+        pass
+    try:
+        cursor.execute("ALTER TABLE facilities ADD COLUMN longitude REAL DEFAULT 72.5714")
+    except Exception:
+        pass
 
     # Ensure payment_method column exists in bookings table
     try:
