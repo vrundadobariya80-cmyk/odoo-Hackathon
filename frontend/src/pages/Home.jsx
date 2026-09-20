@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { fetchVenues } from '../services/api';
 import VenueCard from '../components/VenueCard';
 import SportCard from '../components/SportCard';
+import SlotEstimatorWidget from '../components/SlotEstimatorWidget';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const Home = () => {
@@ -18,34 +19,36 @@ const Home = () => {
   const navigate = useNavigate();
 
   const sports = [
-    { title: 'Badminton', icon: 'bi-trophy', count: '14 Courts' },
+    { title: 'Badminton', icon: 'bi-trophy', count: '14 Arenas' },
     { title: 'Football', icon: 'bi-dribbble', count: '18 Turfs' },
     { title: 'Cricket', icon: 'bi-record-circle', count: '12 Nets' },
     { title: 'Tennis', icon: 'bi-bounding-box-circles', count: '8 Courts' },
-    { title: 'Basketball', icon: 'bi-circle', count: '10 Arenas' },
+    { title: 'Basketball', icon: 'bi-circle', count: '10 Courts' },
     { title: 'Table Tennis', icon: 'bi-disc', count: '6 Tables' }
   ];
+
+  const quickLocations = ['Bodakdev', 'Satellite', 'Sindhu Bhavan', 'SG Highway'];
 
   const features = [
     {
       icon: 'bi-lightning-charge-fill',
-      title: 'Instant Slot Lock',
-      description: 'Book hourly slots in real-time. No double bookings, no waiting for manual phone confirmations.'
+      title: 'Instant Hourly Slot Lock',
+      description: 'Book live hourly court slots in real-time. Guaranteed zero double bookings or manual call delays.'
     },
     {
       icon: 'bi-patch-check-fill',
-      title: '100% Verified Venues',
-      description: 'All turfs and indoor arenas undergo quality checks for lighting, flooring, and safety.'
+      title: '100% Verified Turf Standards',
+      description: 'All listed venues undergo strict quality checks for floodlighting lux, synthetic matting, and safety.'
     },
     {
       icon: 'bi-credit-card-2-back-fill',
-      title: 'Flexible Payment Options',
-      description: 'Pay online via UPI / Debit Card or choose Cash Payment at venue upon your arrival.'
+      title: 'Flexible Cash & UPI Pay',
+      description: 'Pay instantly via UPI / Card or select Pay-at-Venue Cash options upon your match arrival.'
     },
     {
       icon: 'bi-arrow-counterclockwise',
-      title: 'Easy Cancellations',
-      description: 'Cancel upcoming reservations hassle-free with automatic slot release for other players.'
+      title: 'Zero Penalty Cancellations',
+      description: 'Cancel upcoming reservations hassle-free with instant slot release for fellow sports players.'
     }
   ];
 
@@ -53,23 +56,23 @@ const Home = () => {
     {
       id: 1,
       name: 'Rohan Sharma',
-      role: 'Badminton Enthusiast',
+      role: 'Badminton Player • Bodakdev',
       avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
-      comment: 'QuickCourt made booking box cricket turfs in Bodakdev so easy! Reserved our 8 PM slot in under 30 seconds.'
+      comment: 'QuickCourt made reserving box cricket turfs in Bodakdev so smooth! Booked our 8 PM night slot in under 30 seconds.'
     },
     {
       id: 2,
       name: 'Priya Patel',
-      role: 'Weekend Tennis Player',
+      role: 'Tennis Player • Satellite',
       avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
-      comment: 'Loved the option to pay in cash at venue. The court lighting and synthetic turf quality were top-notch!'
+      comment: 'Loved the option to pay cash at the court. The floodlights and synthetic mat flooring quality were top tier!'
     },
     {
       id: 3,
       name: 'Aman Verma',
-      role: 'Football Club Captain',
+      role: 'Football Captain • Sindhu Bhavan',
       avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150',
-      comment: 'Awesome platform for facility owners and players alike. Instant confirmation and clean UI!'
+      comment: 'Awesome platform for facility owners and players alike. Instant confirmation receipt and clean UI!'
     }
   ];
 
@@ -114,42 +117,45 @@ const Home = () => {
   return (
     <div>
       {/* HERO SECTION */}
-      <section className="hero-section py-5 position-relative">
-        <div className="container position-relative" style={{ zIndex: 1 }}>
-          <div className="row align-items-center gy-4">
+      <section className="hero-section position-relative">
+        <div className="hero-bg-glow-1"></div>
+        <div className="hero-bg-glow-2"></div>
+
+        <div className="container position-relative" style={{ zIndex: 2 }}>
+          <div className="row align-items-center gy-5">
             {/* Hero Left Content */}
             <div className="col-lg-7">
-              <div className="d-flex flex-wrap align-items-center gap-2 mb-3">
-                <span className="badge bg-success-subtle text-emerald px-3 py-2 rounded-pill fw-bold border border-success border-opacity-25 d-inline-flex align-items-center gap-1">
-                  <i className="bi bi-fire text-warning"></i> #1 Local Sports Booking Platform in Ahmedabad
-                </span>
-                <span className="hero-stats-badge small d-inline-flex align-items-center gap-1">
-                  <i className="bi bi-patch-check-fill text-emerald"></i> Verified Venues
-                </span>
+              {/* Live Ticker Badge */}
+              <div className="mb-3.5">
+                <div className="qc-live-ticker shadow-sm">
+                  <span className="live-dot"></span>
+                  <span><strong>Live Update:</strong> 2 mins ago, 10-over Cricket Slot booked at Bodakdev Arena</span>
+                </div>
               </div>
 
+              {/* Dynamic Headline */}
               <h1 className="hero-headline">
                 Book Your Game.<br />
-                Find Your Court.<br />
-                <span>Play More.</span>
+                Reserve Your Turf.<br />
+                <span className="text-gradient-emerald">Play Instantly.</span>
               </h1>
               
               <p className="hero-subheading">
-                Discover local sports facilities, FIFA-standard turfs, and synthetic indoor courts. Instant hourly slot locking with zero hassle.
+                Discover 50+ FIFA-standard turfs and BWF synthetic indoor courts in Ahmedabad. Instant hourly slot locking with zero manual phone confirmation.
               </p>
 
-              {/* Glassmorphism Quick Search Bar */}
-              <div className="hero-glass-search mb-4">
+              {/* Glassmorphism Quick Search Box */}
+              <div className="hero-glass-search mb-3">
                 <form onSubmit={handleHeroSearch} className="row g-2 align-items-center">
                   <div className="col-md-5">
                     <div className="input-group">
                       <span className="input-group-text bg-transparent border-0 text-muted ps-2">
-                        <i className="bi bi-geo-alt-fill text-danger"></i>
+                        <i className="bi bi-geo-alt-fill text-danger fs-5"></i>
                       </span>
                       <input
                         type="text"
-                        className="form-control border-0 bg-transparent ps-0 shadow-none text-dark"
-                        placeholder="Location or Venue (e.g. Bodakdev)..."
+                        className="form-control border-0 bg-transparent ps-0 shadow-none text-dark fw-semibold"
+                        placeholder="Area or Venue (e.g. Bodakdev)..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                       />
@@ -157,12 +163,12 @@ const Home = () => {
                   </div>
 
                   <div className="col-md-4">
-                    <div className="input-group">
+                    <div className="input-group border-start border-md-0 border-secondary border-opacity-25">
                       <span className="input-group-text bg-transparent border-0 text-muted ps-2">
-                        <i className="bi bi-trophy-fill text-warning"></i>
+                        <i className="bi bi-trophy-fill text-warning fs-5"></i>
                       </span>
                       <select
-                        className="form-select border-0 bg-transparent ps-0 shadow-none text-dark"
+                        className="form-select border-0 bg-transparent ps-0 shadow-none text-dark fw-semibold"
                         value={searchSport}
                         onChange={(e) => setSearchSport(e.target.value)}
                       >
@@ -175,50 +181,72 @@ const Home = () => {
                   </div>
 
                   <div className="col-md-3">
-                    <button type="submit" className="btn btn-qc-emerald w-100 fw-bold shadow-sm d-flex align-items-center justify-content-center gap-1">
+                    <button type="submit" className="btn btn-qc-emerald w-100 fw-bold d-flex align-items-center justify-content-center gap-1.5">
                       <i className="bi bi-search"></i> Find Courts
                     </button>
                   </div>
                 </form>
+
+                {/* Quick Location Filter Pills */}
+                <div className="d-flex align-items-center gap-2 mt-2.5 pt-2 border-top border-dark border-opacity-10">
+                  <span className="text-muted fs-7 fw-semibold">Popular Areas:</span>
+                  <div className="d-flex flex-wrap gap-1.5">
+                    {quickLocations.map((loc, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        className="location-chip"
+                        onClick={() => setSearchQuery(loc)}
+                      >
+                        {loc}
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
 
-              {/* Quick Stat Highlights */}
-              <div className="d-flex align-items-center gap-4 pt-2">
+              {/* Quick Stat Counter Highlights */}
+              <div className="d-flex align-items-center gap-4 pt-3">
                 <div>
-                  <h4 className="fw-extrabold mb-0 text-white">50+</h4>
-                  <span className="text-muted small">Active Courts</span>
+                  <h4 className="fw-extrabold mb-0 text-white fs-3">50+</h4>
+                  <span className="text-muted fs-7">Active Arenas</span>
                 </div>
-                <div className="border-end border-secondary border-opacity-25 h-100" style={{ height: '30px' }}></div>
+                <div className="border-end border-secondary border-opacity-25" style={{ height: '36px' }}></div>
                 <div>
-                  <h4 className="fw-extrabold mb-0 text-white">10k+</h4>
-                  <span className="text-muted small">Games Played</span>
+                  <h4 className="fw-extrabold mb-0 text-white fs-3">15k+</h4>
+                  <span className="text-muted fs-7">Matches Played</span>
                 </div>
-                <div className="border-end border-secondary border-opacity-25 h-100" style={{ height: '30px' }}></div>
+                <div className="border-end border-secondary border-opacity-25" style={{ height: '36px' }}></div>
                 <div>
-                  <h4 className="fw-extrabold mb-0 text-white">4.9★</h4>
-                  <span className="text-muted small">Player Rating</span>
+                  <h4 className="fw-extrabold mb-0 text-white fs-3">4.9★</h4>
+                  <span className="text-muted fs-7">Player Rating</span>
+                </div>
+                <div className="border-end border-secondary border-opacity-25" style={{ height: '36px' }}></div>
+                <div>
+                  <h4 className="fw-extrabold mb-0 text-emerald fs-3">100%</h4>
+                  <span className="text-muted fs-7">Instant Lock</span>
                 </div>
               </div>
             </div>
 
             {/* Hero Right Visual Banner */}
-            <div className="col-lg-5 text-center">
-              <div className="position-relative">
+            <div className="col-lg-5 text-center position-relative">
+              <div className="position-relative floating-hero-card">
                 <img
-                  src="https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=800"
+                  src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1000&q=80"
                   alt="Sports Turf"
-                  className="img-fluid rounded-4 shadow-lg border border-3 border-white border-opacity-25"
-                  style={{ maxHeight: '420px', objectFit: 'cover', width: '100%' }}
+                  className="img-fluid rounded-4 shadow-lg border border-2 border-white border-opacity-25"
+                  style={{ maxHeight: '440px', objectFit: 'cover', width: '100%' }}
                 />
                 
-                {/* Floating Confirmation Badge */}
-                <div className="qc-card position-absolute bottom-0 start-0 m-3 p-3 text-start bg-white shadow-lg d-flex align-items-center gap-3 rounded-3" style={{ maxWidth: '260px' }}>
-                  <div className="bg-success-subtle text-success p-2 rounded-circle">
-                    <i className="bi bi-check-circle-fill fs-4"></i>
+                {/* Floating Confirmation Card */}
+                <div className="qc-card position-absolute bottom-0 start-0 m-3 p-3 text-start bg-white shadow-lg d-flex align-items-center gap-3 rounded-4" style={{ maxWidth: '270px' }}>
+                  <div className="bg-success-subtle text-success p-2.5 rounded-circle d-flex align-items-center justify-content-center">
+                    <i className="bi bi-shield-check fs-3"></i>
                   </div>
                   <div>
-                    <h6 className="fw-bold mb-0 text-dark">Instant Confirmation</h6>
-                    <small className="text-muted">Real-time slot lock</small>
+                    <h6 className="fw-bold mb-0 text-dark fs-6">Instant Slot Lock</h6>
+                    <small className="text-muted fs-7">Real-time availability sync</small>
                   </div>
                 </div>
               </div>
@@ -227,32 +255,37 @@ const Home = () => {
         </div>
       </section>
 
-      {/* SPORTS CATEGORIES */}
+      {/* SPORTS CATEGORIES HUB */}
       <section className="py-5 bg-white">
         <div className="container">
           <div className="text-center mb-4">
-            <span className="text-emerald fw-bold text-uppercase small tracking-wider">Choose Your Game</span>
-            <h2 className="fw-bold text-dark mb-1">Popular Sports Categories</h2>
+            <span className="text-emerald fw-bold text-uppercase fs-7 tracking-wider">Choose Your Sport</span>
+            <h2 className="fw-extrabold text-dark mb-1">Popular Sports Arenas in Ahmedabad</h2>
             <p className="text-muted small mb-0">Select your favorite sport to filter verified local facilities</p>
           </div>
 
           <div className="row g-3">
             {sports.map((s, idx) => (
               <div key={idx} className="col-6 col-md-4 col-lg-2">
-                <SportCard title={s.title} icon={s.icon} onClick={() => handleSportClick(s.title)} />
+                <SportCard
+                  title={s.title}
+                  icon={s.icon}
+                  count={s.count}
+                  onClick={() => handleSportClick(s.title)}
+                />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* POPULAR SPORTS VENUES WITH FILTER TABS */}
+      {/* POPULAR SPORTS VENUES SHOWCASE WITH FILTER TABS */}
       <section className="py-5">
         <div className="container">
           <div className="d-flex flex-column flex-md-row justify-content-between align-items-md-end mb-4 gap-3">
             <div>
-              <span className="text-emerald fw-bold text-uppercase small">Top Rated Venues</span>
-              <h2 className="fw-bold mb-0 text-dark">Popular Facilities in Ahmedabad</h2>
+              <span className="text-emerald fw-bold text-uppercase fs-7 tracking-wider">Top Rated Venues</span>
+              <h2 className="fw-extrabold mb-0 text-dark">Featured Facilities in Ahmedabad</h2>
             </div>
 
             {/* Sport Filter Tabs */}
@@ -261,7 +294,7 @@ const Home = () => {
                 <button
                   key={tab}
                   type="button"
-                  className={`btn btn-sm rounded-pill px-3 fw-semibold ${
+                  className={`btn btn-sm rounded-pill px-3.5 fw-bold ${
                     selectedSportTab === tab ? 'btn-emerald text-white shadow-sm' : 'btn-outline-secondary'
                   }`}
                   onClick={() => handleTabFilter(tab)}
@@ -269,7 +302,7 @@ const Home = () => {
                   {tab}
                 </button>
               ))}
-              <Link to="/venues" className="btn btn-qc-outline rounded-pill btn-sm ms-md-2">
+              <Link to="/venues" className="btn btn-qc-outline rounded-pill btn-sm ms-md-2 fw-bold">
                 View All <i className="bi bi-arrow-right ms-1"></i>
               </Link>
             </div>
@@ -298,13 +331,20 @@ const Home = () => {
         </div>
       </section>
 
+      {/* INTERACTIVE SLOT ESTIMATOR & CALCULATOR WIDGET */}
+      <section className="py-4">
+        <div className="container">
+          <SlotEstimatorWidget />
+        </div>
+      </section>
+
       {/* WHY CHOOSE QUICKCOURT? (FEATURES GRID) */}
       <section className="py-5 bg-white border-top border-bottom">
         <div className="container">
           <div className="text-center mb-5">
-            <span className="text-emerald fw-bold text-uppercase small">Why QuickCourt?</span>
-            <h2 className="fw-bold text-dark">Built for Modern Sports Enthusiasts</h2>
-            <p className="text-muted small mb-0">Hassle-free booking experience engineered for players and teams.</p>
+            <span className="text-emerald fw-bold text-uppercase fs-7 tracking-wider">Why QuickCourt?</span>
+            <h2 className="fw-extrabold text-dark">Engineered for Modern Athletes</h2>
+            <p className="text-muted small mb-0">Hassle-free booking experience crafted for casual players & league captains alike.</p>
           </div>
 
           <div className="row g-4">
@@ -327,18 +367,18 @@ const Home = () => {
       <section className="py-5">
         <div className="container">
           <div className="text-center mb-5">
-            <span className="text-emerald fw-bold text-uppercase small">Simple 3-Step Booking</span>
-            <h2 className="fw-bold text-dark">How QuickCourt Works</h2>
-            <p className="text-muted small mb-0">From search to court kickoff in under 1 minute</p>
+            <span className="text-emerald fw-bold text-uppercase fs-7 tracking-wider">3 Easy Steps</span>
+            <h2 className="fw-extrabold text-dark">How QuickCourt Works</h2>
+            <p className="text-muted small mb-0">From court search to kickoff in under 1 minute</p>
           </div>
 
           <div className="row g-4 text-center">
             <div className="col-md-4">
               <div className="step-card h-100">
                 <div className="step-number mx-auto">1</div>
-                <h5 className="fw-bold text-dark mb-2">Find a Venue</h5>
+                <h5 className="fw-bold text-dark mb-2">Discover Venues</h5>
                 <p className="text-muted small mb-0">
-                  Search by location (e.g. Bodakdev, Satellite), sport category, or hourly price. Read verified reviews.
+                  Search by location (Bodakdev, Satellite, SG Highway), sport category, or hourly budget. Inspect verified photos & amenities.
                 </p>
               </div>
             </div>
@@ -346,9 +386,9 @@ const Home = () => {
             <div className="col-md-4">
               <div className="step-card h-100">
                 <div className="step-number mx-auto">2</div>
-                <h5 className="fw-bold text-dark mb-2">Pick Court & Time</h5>
+                <h5 className="fw-bold text-dark mb-2">Pick Court & Hour</h5>
                 <p className="text-muted small mb-0">
-                  Select your court, date, and live available hourly slot. Prevents double-booking automatically.
+                  Choose your court, preferred date, and live hourly slot grid. Prevents double bookings automatically.
                 </p>
               </div>
             </div>
@@ -356,9 +396,9 @@ const Home = () => {
             <div className="col-md-4">
               <div className="step-card h-100">
                 <div className="step-number mx-auto">3</div>
-                <h5 className="fw-bold text-dark mb-2">Pay & Play</h5>
+                <h5 className="fw-bold text-dark mb-2">Instant Pay & Play</h5>
                 <p className="text-muted small mb-0">
-                  Choose UPI, Card, or Pay at Venue in Cash. Get instant booking confirmation receipt and play!
+                  Pay online via UPI, Card, or choose Cash Pay at Venue upon arrival. Receive instant booking receipt!
                 </p>
               </div>
             </div>
@@ -370,32 +410,32 @@ const Home = () => {
       <section className="py-5 bg-white border-top">
         <div className="container">
           <div className="text-center mb-5">
-            <span className="text-emerald fw-bold text-uppercase small">Player Reviews</span>
-            <h2 className="fw-bold text-dark">Loved by Sports Enthusiasts</h2>
+            <span className="text-emerald fw-bold text-uppercase fs-7 tracking-wider">Player Feedback</span>
+            <h2 className="fw-extrabold text-dark">Trusted by 10,000+ Players</h2>
           </div>
 
           <div className="row g-4">
             {testimonials.map((t) => (
               <div key={t.id} className="col-md-4">
-                <div className="p-4 rounded-4 bg-light h-100 border border-light-subtle d-flex flex-column justify-content-between">
+                <div className="p-4 rounded-4 bg-light h-100 border border-light-subtle d-flex flex-column justify-content-between shadow-sm">
                   <div className="mb-3">
-                    <div className="text-warning mb-2">
+                    <div className="text-warning mb-2 fs-6">
                       <i className="bi bi-star-fill me-1"></i>
                       <i className="bi bi-star-fill me-1"></i>
                       <i className="bi bi-star-fill me-1"></i>
                       <i className="bi bi-star-fill me-1"></i>
                       <i className="bi bi-star-fill"></i>
                     </div>
-                    <p className="text-dark small fst-italic mb-0">"{t.comment}"</p>
+                    <p className="text-dark small fst-italic mb-0 leading-relaxed">"{t.comment}"</p>
                   </div>
 
                   <div className="d-flex align-items-center gap-3 pt-3 border-top border-secondary-subtle">
                     <img
                       src={t.avatar}
                       alt={t.name}
-                      className="rounded-circle border"
-                      width="42"
-                      height="42"
+                      className="rounded-circle border border-2 border-emerald"
+                      width="44"
+                      height="44"
                       style={{ objectFit: 'cover' }}
                     />
                     <div>
@@ -414,19 +454,19 @@ const Home = () => {
       <section className="py-5">
         <div className="container">
           <div className="owner-cta-banner p-4 p-md-5">
-            <div className="row align-items-center gy-4 position-relative" style={{ zIndex: 1 }}>
+            <div className="row align-items-center gy-4 position-relative" style={{ zIndex: 2 }}>
               <div className="col-lg-8">
-                <span className="badge bg-emerald text-white px-3 py-2 rounded-pill fw-bold mb-2">
-                  <i className="bi bi-building me-1"></i> For Venue & Turf Owners
+                <span className="badge bg-emerald text-white px-3 py-2 rounded-pill fw-bold mb-3 shadow-sm d-inline-flex align-items-center gap-1.5">
+                  <i className="bi bi-building"></i> Partner Platform for Venue Owners
                 </span>
-                <h2 className="fw-bold text-white mb-2">Own a Sports Facility in Ahmedabad?</h2>
-                <p className="text-light opacity-75 mb-0 fs-6">
-                  List your turfs, badminton courts, or cricket nets on QuickCourt. Manage slots, accept online/cash bookings, and grow your revenue seamlessly.
+                <h2 className="fw-extrabold text-white mb-2 fs-2">Own a Turf or Sports Arena in Ahmedabad?</h2>
+                <p className="text-light opacity-80 mb-0 fs-6">
+                  Partner with QuickCourt to list your courts, automate hourly slot locks, eliminate phone call chaos, and track real-time revenue analytics.
                 </p>
               </div>
               <div className="col-lg-4 text-lg-end">
-                <Link to="/signup" className="btn btn-qc-emerald btn-lg px-4 rounded-pill shadow-lg">
-                  <i className="bi bi-plus-circle me-2"></i> List Your Facility
+                <Link to="/signup" className="btn btn-qc-emerald btn-lg px-4 rounded-pill shadow-lg fw-bold d-inline-flex align-items-center gap-2">
+                  <i className="bi bi-plus-circle-fill"></i> List Your Facility
                 </Link>
               </div>
             </div>
@@ -438,4 +478,3 @@ const Home = () => {
 };
 
 export default Home;
-

@@ -65,7 +65,7 @@ def seed_database():
             "location": "Sindhu Bhavan Road, Ahmedabad",
             "sports": "Football, Cricket",
             "amenities": "Floodlights, Changing Rooms, Free Parking, Refreshment Kiosk, Shower",
-            "image": "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=800",
+            "image": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1000&q=80",
             "status": "Approved"
         },
         {
@@ -76,7 +76,7 @@ def seed_database():
             "location": "Bodakdev, Ahmedabad",
             "sports": "Badminton, Table Tennis",
             "amenities": "AC, Pro Shop, Locker Room, Water Cooler, Equipment Rental",
-            "image": "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?w=800",
+            "image": "https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1000&q=80",
             "status": "Approved"
         },
         {
@@ -87,7 +87,7 @@ def seed_database():
             "location": "SG Highway, Ahmedabad",
             "sports": "Cricket, Basketball, Football",
             "amenities": "Floodlights, Grandstand Seating, Parking, Cafeteria, First Aid",
-            "image": "https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800",
+            "image": "https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1000&q=80",
             "status": "Approved"
         },
         {
@@ -98,7 +98,7 @@ def seed_database():
             "location": "Satellite, Ahmedabad",
             "sports": "Tennis",
             "amenities": "Coach Available, Floodlights, Ball Machine, Lounge Area",
-            "image": "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=800",
+            "image": "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?auto=format&fit=crop&w=1000&q=80",
             "status": "Approved"
         },
         {
@@ -109,7 +109,7 @@ def seed_database():
             "location": "Prahlad Nagar, Ahmedabad",
             "sports": "Badminton, Table Tennis",
             "amenities": "Synthetic Flooring, AC, Snack Bar, Wifi, Lockers",
-            "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=800",
+            "image": "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1000&q=80",
             "status": "Approved"
         },
         {
@@ -120,7 +120,7 @@ def seed_database():
             "location": "Vastrapur, Ahmedabad",
             "sports": "Basketball, Tennis",
             "amenities": "Night Lighting, Refreshment Stall, Restrooms, Parking",
-            "image": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800",
+            "image": "https://images.unsplash.com/photo-1519766304817-4f37bda74a29?auto=format&fit=crop&w=1000&q=80",
             "status": "Approved"
         },
         {
@@ -131,7 +131,7 @@ def seed_database():
             "location": "Drive-In Road, Ahmedabad",
             "sports": "Table Tennis, Badminton",
             "amenities": "Stiga Tables, Yonex Nets, Air Conditioning, Beverage Station",
-            "image": "https://images.unsplash.com/photo-1609710228159-0fa9bd7c0827?w=800",
+            "image": "https://images.unsplash.com/photo-1609710228159-0fa9bd7c0827?auto=format&fit=crop&w=1000&q=80",
             "status": "Approved"
         },
         {
@@ -142,7 +142,7 @@ def seed_database():
             "location": "Navrangpura, Ahmedabad",
             "sports": "Cricket, Football",
             "amenities": "LED Lights, Seating Area, Changing Room, Canteen",
-            "image": "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=800",
+            "image": "https://images.unsplash.com/photo-1529900748604-07564a03e7a6?auto=format&fit=crop&w=1000&q=80",
             "status": "Approved"
         },
         {
@@ -153,7 +153,7 @@ def seed_database():
             "location": "Bopal, Ahmedabad",
             "sports": "Football, Tennis",
             "amenities": "EV Charging, Green Pavilion, Floodlights, Locker Room",
-            "image": "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=800",
+            "image": "https://images.unsplash.com/photo-1530549387789-4c1017266635?auto=format&fit=crop&w=1000&q=80",
             "status": "Pending"
         }
     ]
@@ -235,15 +235,15 @@ def seed_database():
 
     # Sample Reviews
     reviews_sample = [
-        (user_id, facility_ids[0], booking_ids[0], 5, "Amazing FIFA turf! Great floodlights and very well maintained."),
-        (user2_id, facility_ids[2], booking_ids[2], 4, "Excellent basketball court with great grip and clean facilities."),
-        (user2_id, facility_ids[3], booking_ids[3], 5, "Best tennis clay court in Satellite area. Very helpful staff!")
+        (user_id, facility_ids[0], booking_ids[0], 5, "Amazing FIFA turf! Great floodlights and very well maintained.", "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80"),
+        (user2_id, facility_ids[2], booking_ids[2], 4, "Excellent basketball court with great grip and clean facilities.", "https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80"),
+        (user2_id, facility_ids[3], booking_ids[3], 5, "Best tennis clay court in Satellite area. Very helpful staff!", "https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?auto=format&fit=crop&w=800&q=80")
     ]
 
     for r in reviews_sample:
         cursor.execute('''
-            INSERT INTO reviews (user_id, facility_id, booking_id, rating, comment)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO reviews (user_id, facility_id, booking_id, rating, comment, image)
+            VALUES (?, ?, ?, ?, ?, ?)
         ''', r)
 
     # Sample Blocked Slots

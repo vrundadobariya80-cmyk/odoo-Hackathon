@@ -70,10 +70,13 @@ const VenueDetails = () => {
             <div className="col-lg-6">
               <div style={{ height: '380px', width: '100%', overflow: 'hidden' }}>
                 <img
-                  src={facility.image || 'https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=800'}
+                  src={facility.image || 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1000&q=80'}
                   alt={facility.name}
                   className="w-100 h-100"
                   style={{ objectFit: 'cover' }}
+                  onError={(e) => {
+                    e.target.src = 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1000&q=80';
+                  }}
                 />
               </div>
             </div>
@@ -265,8 +268,20 @@ const VenueDetails = () => {
                         ))}
                       </div>
                     </div>
-                    <p className="text-secondary small mb-0">{r.comment}</p>
-                    <span className="text-muted fs-7 d-block mt-2">{r.created_at}</span>
+                    <p className="text-secondary small mb-2">{r.comment}</p>
+                    
+                    {r.image && (
+                      <div className="mb-2 rounded-3 overflow-hidden border shadow-xs" style={{ maxHeight: '160px', maxWidth: '280px' }}>
+                        <img
+                          src={r.image}
+                          alt="Review photo"
+                          className="img-fluid w-100 h-100"
+                          style={{ objectFit: 'cover' }}
+                        />
+                      </div>
+                    )}
+
+                    <span className="text-muted fs-7 d-block">{r.created_at}</span>
                   </div>
                 </div>
               ))}

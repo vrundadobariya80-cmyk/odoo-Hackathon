@@ -127,14 +127,33 @@ const AddFacility = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label className="form-label fw-semibold small text-muted">Facility Image URL (Optional)</label>
+                  <label className="form-label fw-semibold small text-muted">Facility Image URL</label>
                   <input
                     type="url"
-                    className="form-control"
+                    className="form-control mb-2"
                     placeholder="https://images.unsplash.com/photo-..."
                     value={image}
                     onChange={(e) => setImage(e.target.value)}
                   />
+                  <div className="small text-muted mb-1.5 fw-semibold">Quick Select Sample Sports Image:</div>
+                  <div className="d-flex flex-wrap gap-1.5">
+                    {[
+                      { name: '⚽ Football Turf', url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1000&q=80' },
+                      { name: '🏸 Badminton Court', url: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=1000&q=80' },
+                      { name: '🏏 Cricket Net', url: 'https://images.unsplash.com/photo-1531415074968-036ba1b575da?auto=format&fit=crop&w=1000&q=80' },
+                      { name: '🎾 Tennis Court', url: 'https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?auto=format&fit=crop&w=1000&q=80' },
+                      { name: '🏀 Basketball Arena', url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=1000&q=80' }
+                    ].map((preset, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        className="btn btn-sm btn-outline-secondary rounded-pill fs-7 py-1 px-2.5"
+                        onClick={() => setImage(preset.url)}
+                      >
+                        {preset.name}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 <div className="d-flex gap-2">

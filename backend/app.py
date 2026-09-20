@@ -474,6 +474,7 @@ def create_review(current_user):
     booking_id = data.get('booking_id')
     rating = data.get('rating')
     comment = data.get('comment', '').strip()
+    image = data.get('image', '').strip()
 
     if not booking_id or not rating or not comment:
         return jsonify({"error": "Rating and comment are required."}), 400
@@ -491,9 +492,9 @@ def create_review(current_user):
         return jsonify({"error": "You have already reviewed this booking."}), 400
 
     execute_db('''
-        INSERT INTO reviews (user_id, facility_id, booking_id, rating, comment)
-        VALUES (?, ?, ?, ?, ?)
-    ''', (current_user['id'], b_dict['facility_id'], booking_id, rating, comment))
+        INSERT INTO reviews (user_id, facility_id, booking_id, rating, comment, image)
+        VALUES (?, ?, ?, ?, ?, ?)
+    ''', (current_user['id'], b_dict['facility_id'], booking_id, rating, comment, image))
 
     return jsonify({"message": "Thank you! Review submitted successfully."}), 201
 

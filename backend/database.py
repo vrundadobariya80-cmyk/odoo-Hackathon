@@ -116,6 +116,12 @@ def init_db():
     except Exception:
         pass
 
+    # Ensure image column exists in reviews table
+    try:
+        cursor.execute("ALTER TABLE reviews ADD COLUMN image TEXT DEFAULT ''")
+    except Exception:
+        pass
+
     # Migrate any legacy dummy 'Paid (Demo)' records to proper payment methods
     try:
         cursor.execute("UPDATE bookings SET payment_status = 'Paid (Online)', payment_method = 'UPI Instant' WHERE payment_status = 'Paid (Demo)' OR payment_method = 'UPI'")

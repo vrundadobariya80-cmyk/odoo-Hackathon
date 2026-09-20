@@ -14,6 +14,7 @@ const MyBookings = () => {
   const [selectedBookingForReview, setSelectedBookingForReview] = useState(null);
   const [rating, setRating] = useState(5);
   const [comment, setComment] = useState('');
+  const [image, setImage] = useState('');
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
 
   const loadBookings = async () => {
@@ -48,6 +49,7 @@ const MyBookings = () => {
     setSelectedBookingForReview(b);
     setRating(5);
     setComment('');
+    setImage('');
   };
 
   const handleSubmitReview = async (e) => {
@@ -58,7 +60,8 @@ const MyBookings = () => {
       const res = await submitReview({
         booking_id: selectedBookingForReview.id,
         rating,
-        comment
+        comment,
+        image
       });
       setMessage({ type: 'success', text: res.data.message || 'Review submitted!' });
       setSelectedBookingForReview(null);
@@ -160,6 +163,35 @@ const MyBookings = () => {
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}
                       ></textarea>
+                    </div>
+
+                    <div className="mb-3">
+                      <label className="form-label fw-semibold small">Add Photo to Review (Optional)</label>
+                      <input
+                        type="url"
+                        className="form-control mb-2"
+                        placeholder="https://images.unsplash.com/photo-..."
+                        value={image}
+                        onChange={(e) => setImage(e.target.value)}
+                      />
+                      <div className="small text-muted mb-1 fs-7">Or Pick a Sample Photo:</div>
+                      <div className="d-flex flex-wrap gap-1.5">
+                        {[
+                          { label: '⚽ Turf Surface', url: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=800&q=80' },
+                          { label: '🏸 Badminton Court', url: 'https://images.unsplash.com/photo-1626224583764-f87db24ac4ea?auto=format&fit=crop&w=800&q=80' },
+                          { label: '🎾 Tennis Clay', url: 'https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?auto=format&fit=crop&w=800&q=80' },
+                          { label: '🏀 Basketball Arena', url: 'https://images.unsplash.com/photo-1546519638-68e109498ffc?auto=format&fit=crop&w=800&q=80' }
+                        ].map((preset, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            className="btn btn-sm btn-outline-secondary rounded-pill fs-7 py-0.5 px-2"
+                            onClick={() => setImage(preset.url)}
+                          >
+                            {preset.label}
+                          </button>
+                        ))}
+                      </div>
                     </div>
                   </div>
                   <div className="modal-footer border-0 pt-0">
