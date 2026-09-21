@@ -1,16 +1,33 @@
 import os
 import random
 import datetime
-from flask import Flask, request, jsonify, session
+import re
+from flask import Flask, request, jsonify, session, send_from_directory
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
 from config import SECRET_KEY
 from database import init_db, query_db, execute_db, dict_from_row, dicts_from_rows
 
-app = Flask(__name__)
+# Check if frontend static build folder exists
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+FRONTEND_DIST = os.path.abspath(os.path.join(BASE_DIR, '..', 'frontend', 'dist'))
+
+if os.path.exists(FRONTEND_DIST):
+    app = Flask(__name__, static_folder=FRONTEND_DIST, static_url_path='')
+else:
+    app = Flask(__name__)
+
 app.secret_key = SECRET_KEY
 app.config['SESSION_COOKIE_HTTPONLY'] = True
-app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+
+# Production / HTTPS Cookie config
+is_production = 'PORT' in os.environ or os.environ.get('RAILWAY_ENVIRONMENT')
+if is_production:
+    app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+    app.config['SESSION_COOKIE_SECURE'] = True
+else:
+    app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
+    app.config['SESSION_COOKIE_SECURE'] = False
 
 # Allow CORS with credentials for local dev and Railway production deployment
 cors_origins_env = os.environ.get('CORS_ORIGINS', '')
@@ -21,8 +38,9 @@ else:
         "http://localhost:5173",
         "http://127.0.0.1:5173",
         "http://localhost:3000",
-        r"https://.*\.up\.railway\.app",
-        r"https://.*\.vercel\.app"
+        re.compile(r"https://.*\.up\.railway\.app"),
+        re.compile(r"https://.*\.vercel\.app"),
+        re.compile(r"https://.*\.netlify\.app")
     ]
 
 CORS(app, supports_credentials=True, origins=allowed_origins)
@@ -846,6 +864,19 @@ def admin_ban_user(current_user, user_id):
 def admin_unban_user(current_user, user_id):
     execute_db("UPDATE users SET is_banned = 0 WHERE id = ?", (user_id,))
     return jsonify({"message": "User reactivated successfully."}), 200
+
+# Serve static frontend files & SPA routing if dist folder exists
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_frontend_spa(path):
+    if path.startswith('api/'):
+        return jsonify({"error": "API route not found"}), 404
+    if os.path.exists(FRONTEND_DIST):
+        target_path = os.path.join(FRONTEND_DIST, path)
+        if path != "" and os.path.exists(target_path):
+            return send_from_directory(FRONTEND_DIST, path)
+        return send_from_directory(FRONTEND_DIST, 'index.html')
+    return jsonify({"message": "QuickCourt Flask API Server is running."}), 200
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
