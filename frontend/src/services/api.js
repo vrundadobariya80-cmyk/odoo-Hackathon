@@ -1,12 +1,22 @@
 import axios from 'axios';
 
-const isVercel = typeof window !== 'undefined' && window.location.hostname.includes('vercel.app');
-const defaultBaseURL = isVercel 
-  ? 'https://odoo-hackathon-production-d81a.up.railway.app/api' 
-  : '/api';
+// Get base URL and ensure it always ends with '/api' whether set via VITE_API_BASE_URL or defaulting to relative '/api'
+const getBaseURL = () => {
+  let envURL = import.meta.env.VITE_API_BASE_URL;
+  if (!envURL) {
+    return '/api';
+  }
+  // Remove trailing slashes
+  envURL = envURL.replace(/\/+$/, '');
+  // If VITE_API_BASE_URL doesn't end with /api, append it so endpoints (e.g. /auth/login) hit /api/auth/login
+  if (!envURL.endsWith('/api')) {
+    return `${envURL}/api`;
+  }
+  return envURL;
+};
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || defaultBaseURL,
+  baseURL: getBaseURL(),
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'

@@ -29,19 +29,12 @@ else:
     app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
     app.config['SESSION_COOKIE_SECURE'] = False
 
-# Allow CORS with credentials for local dev and Railway production deployment
+# Allow CORS with credentials for local dev and production deployments (Vercel, Railway, Netlify)
 cors_origins_env = os.environ.get('CORS_ORIGINS', '')
 if cors_origins_env:
     allowed_origins = [o.strip() for o in cors_origins_env.split(',') if o.strip()]
 else:
-    allowed_origins = [
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:3000",
-        re.compile(r"https://.*\.up\.railway\.app"),
-        re.compile(r"https://.*\.vercel\.app"),
-        re.compile(r"https://.*\.netlify\.app")
-    ]
+    allowed_origins = r".*"
 
 CORS(app, supports_credentials=True, origins=allowed_origins)
 
