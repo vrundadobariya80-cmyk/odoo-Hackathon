@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+const isVercel = typeof window !== 'undefined' && window.location.hostname.includes('vercel.app');
+const defaultBaseURL = isVercel 
+  ? 'https://odoo-hackathon-production-d81a.up.railway.app/api' 
+  : '/api';
+
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || defaultBaseURL,
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
