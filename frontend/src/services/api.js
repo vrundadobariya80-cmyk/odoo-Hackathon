@@ -1,9 +1,11 @@
 import axios from 'axios';
 
-// Get base URL and ensure it always ends with '/api' whether set via VITE_API_BASE_URL or defaulting to relative '/api'
+// Get base URL. On Vercel or local dev, default to relative '/api' so Vercel rewrites and Vite proxy handle requests as same-origin.
+// This prevents mobile browsers (iOS Safari, Android Chrome) from blocking cross-site/third-party cookies.
 const getBaseURL = () => {
   let envURL = import.meta.env.VITE_API_BASE_URL;
-  if (!envURL) {
+  // If running on Vercel deployment or envURL is not set, use relative '/api' for same-origin proxying
+  if (!envURL || (typeof window !== 'undefined' && window.location.hostname.includes('vercel.app'))) {
     return '/api';
   }
   // Remove trailing slashes
