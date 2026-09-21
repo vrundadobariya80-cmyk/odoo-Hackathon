@@ -30,13 +30,29 @@ else:
     app.config['SESSION_COOKIE_SECURE'] = False
 
 # Allow CORS with credentials for local dev and production deployments (Vercel, Railway, Netlify)
-cors_origins_env = os.environ.get('CORS_ORIGINS', '')
-if cors_origins_env:
-    allowed_origins = [o.strip() for o in cors_origins_env.split(',') if o.strip()]
-else:
-    allowed_origins = r".*"
+CORS(app, supports_credentials=True, origins=r".*")
 
-CORS(app, supports_credentials=True, origins=allowed_origins)
+@app.before_request
+def handle_options_preflight():
+    if request.method == 'OPTIONS':
+        response = app.make_default_options_response()
+        origin = request.headers.get('Origin')
+        if origin:
+            response.headers['Access-Control-Allow-Origin'] = origin
+            response.headers['Access-Control-Allow-Credentials'] = 'true'
+            response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, X-Requested-With'
+            response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+        return response
+
+@app.after_request
+def add_cors_headers(response):
+    origin = request.headers.get('Origin')
+    if origin:
+        response.headers['Access-Control-Allow-Origin'] = origin
+        response.headers['Access-Control-Allow-Credentials'] = 'true'
+        response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization, X-Requested-With'
+        response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    return response
 
 # Ensure DB initialized on startup
 init_db()
