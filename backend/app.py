@@ -12,8 +12,20 @@ app.secret_key = SECRET_KEY
 app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['SESSION_COOKIE_SAMESITE'] = 'Lax'
 
-# Allow CORS with credentials for local dev
-CORS(app, supports_credentials=True, origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000"])
+# Allow CORS with credentials for local dev and Railway production deployment
+cors_origins_env = os.environ.get('CORS_ORIGINS', '')
+if cors_origins_env:
+    allowed_origins = [o.strip() for o in cors_origins_env.split(',') if o.strip()]
+else:
+    allowed_origins = [
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://localhost:3000",
+        r"https://.*\.up\.railway\.app",
+        r"https://.*\.vercel\.app"
+    ]
+
+CORS(app, supports_credentials=True, origins=allowed_origins)
 
 # Ensure DB initialized on startup
 init_db()
@@ -836,5 +848,6 @@ def admin_unban_user(current_user, user_id):
     return jsonify({"message": "User reactivated successfully."}), 200
 
 if __name__ == '__main__':
-    print("Starting QuickCourt Flask Backend Server on port 5000...")
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    print(f"Starting QuickCourt Flask Backend Server on port {port}...")
+    app.run(host='0.0.0.0', port=port, debug=False)

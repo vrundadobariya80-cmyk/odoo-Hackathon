@@ -7,7 +7,7 @@ def get_db_connection():
     conn.row_factory = sqlite3.Row
     return conn
 
-def init_db():
+def init_db(skip_auto_seed=False):
     conn = get_db_connection()
     cursor = conn.cursor()
 
@@ -141,6 +141,20 @@ def init_db():
         pass
 
     conn.commit()
+
+    if not skip_auto_seed:
+        try:
+            cursor.execute("SELECT COUNT(*) FROM users")
+            row = cursor.fetchone()
+            if row and row[0] == 0:
+                conn.close()
+                from seed import seed_database
+                print("Database empty: Auto-seeding initial dataset...")
+                seed_database()
+                return
+        except Exception as e:
+            print(f"Auto-seed check note: {e}")
+
     conn.close()
 
 def query_db(query, args=(), one=False):

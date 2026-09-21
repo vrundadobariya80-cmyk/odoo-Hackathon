@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash
 from database import init_db, get_db_connection, execute_db, query_db
 
 def seed_database():
-    init_db()
+    init_db(skip_auto_seed=True)
     conn = get_db_connection()
     cursor = conn.cursor()
 
