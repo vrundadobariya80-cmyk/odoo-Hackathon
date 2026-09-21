@@ -1,13 +1,7 @@
 import axios from 'axios';
 
-// Automatically detect backend URL when hosted on Vercel or custom domain
-const isVercel = typeof window !== 'undefined' && window.location.hostname.includes('vercel.app');
-const defaultBaseURL = isVercel 
-  ? 'https://odoo-hackathon-production.up.railway.app/api' 
-  : '/api';
-
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || defaultBaseURL,
+  baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
