@@ -19,7 +19,7 @@ const Footer = () => {
               <span className="badge qc-badge-live ms-2">LIVE</span>
             </div>
             <p className="qc-footer-desc mb-4">
-              Ahmedabad’s premier sports facility & court booking platform. Discover top-rated venues, check real-time court availability, and lock in your slots seamlessly.
+              India’s premier sports facility & court booking platform. Discover top-rated venues across Mumbai, Delhi NCR, Bengaluru, Pune, Ahmedabad, Surat, Jaipur & Hyderabad. Real-time availability and instant slot locking.
             </p>
             <div className="d-flex align-items-center gap-2">
               <span className="text-secondary small fw-medium me-2">Follow Us:</span>

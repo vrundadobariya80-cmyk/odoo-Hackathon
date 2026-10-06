@@ -1,7 +1,8 @@
 import React from 'react';
 
-const FilterPanel = ({ sport, setSport, priceMax, setPriceMax, ratingMin, setRatingMin, sortBy, setSortBy, onReset }) => {
+const FilterPanel = ({ city, setCity, sport, setSport, priceMax, setPriceMax, ratingMin, setRatingMin, sortBy, setSortBy, onReset }) => {
   const sportsOptions = ['Badminton', 'Football', 'Cricket', 'Tennis', 'Basketball', 'Table Tennis'];
+  const citiesOptions = ['All Cities', 'Mumbai', 'Delhi NCR', 'Bengaluru', 'Pune', 'Ahmedabad', 'Surat', 'Jaipur', 'Hyderabad', 'Chennai', 'Kolkata'];
 
   return (
     <div className="qc-card p-4">
@@ -11,6 +12,18 @@ const FilterPanel = ({ sport, setSport, priceMax, setPriceMax, ratingMin, setRat
           Reset All
         </button>
       </h6>
+
+      {/* City Filter */}
+      {setCity && (
+        <div className="mb-4">
+          <label className="form-label fw-semibold small text-uppercase text-muted">Select City</label>
+          <select className="form-select" value={city || 'All Cities'} onChange={(e) => setCity(e.target.value)}>
+            {citiesOptions.map((c) => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
+        </div>
+      )}
 
       {/* Sport filter */}
       <div className="mb-4">

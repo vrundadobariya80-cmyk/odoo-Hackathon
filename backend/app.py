@@ -200,6 +200,7 @@ def get_venues():
     search = request.args.get('search', '').strip()
     sport = request.args.get('sport', '').strip()
     location = request.args.get('location', '').strip()
+    city = request.args.get('city', '').strip()
     price_max = request.args.get('price_max', type=float)
     rating_min = request.args.get('rating_min', type=float)
     sort_by = request.args.get('sort_by', 'rating')
@@ -219,17 +220,22 @@ def get_venues():
     params = []
 
     if search:
-        query += " AND (f.name LIKE ? OR f.location LIKE ? OR f.address LIKE ? OR f.description LIKE ?)"
+        query += " AND (f.name LIKE ? OR f.location LIKE ? OR f.address LIKE ? OR f.description LIKE ? OR f.city LIKE ?)"
         term = f"%{search}%"
-        params.extend([term, term, term, term])
+        params.extend([term, term, term, term, term])
+
+    if city and city.lower() != 'all cities':
+        query += " AND (f.city LIKE ? OR f.location LIKE ? OR f.address LIKE ?)"
+        c_term = f"%{city}%"
+        params.extend([c_term, c_term, c_term])
 
     if sport:
         query += " AND f.sports LIKE ?"
         params.append(f"%{sport}%")
 
     if location:
-        query += " AND f.location LIKE ?"
-        params.append(f"%{location}%")
+        query += " AND (f.location LIKE ? OR f.address LIKE ?)"
+        params.extend([f"%{location}%", f"%{location}%"])
 
     query += " GROUP BY f.id"
 
@@ -272,6 +278,49 @@ def get_venues():
         "page": page,
         "pages": (total + limit - 1) // limit if total > 0 else 1
     }), 200
+
+@app.route('/api/cities', methods=['GET'])
+def get_cities():
+    rows = query_db("SELECT DISTINCT city FROM facilities WHERE city IS NOT NULL AND city != ''")
+    existing_cities = [r['city'] for r in rows if r['city']]
+    default_cities = ["Mumbai", "Delhi NCR", "Bengaluru", "Pune", "Ahmedabad", "Surat", "Jaipur", "Hyderabad", "Chennai", "Kolkata"]
+    combined = list(dict.fromkeys(existing_cities + default_cities))
+    all_cities = ["All Cities"] + sorted(combined)
+    return jsonify({"cities": all_cities}), 200
+
+@app.route('/api/venues/live', methods=['GET'])
+def get_live_venues():
+    import urllib.request
+    import urllib.parse
+    import json
+
+    city = request.args.get('city', 'Mumbai').strip()
+    try:
+        url = f"https://nominatim.openstreetmap.org/search?q=sports+complex+{urllib.parse.quote(city)}&format=json&limit=10"
+        req = urllib.request.Request(url, headers={'User-Agent': 'QuickCourtApp/1.0'})
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            data = json.loads(resp.read().decode('utf-8'))
+            live_places = []
+            for item in data:
+                live_places.append({
+                    "id": f"live_{item.get('place_id')}",
+                    "name": item.get('display_name', '').split(',')[0],
+                    "address": item.get('display_name', ''),
+                    "location": city,
+                    "city": city,
+                    "latitude": float(item.get('lat', 0)),
+                    "longitude": float(item.get('lon', 0)),
+                    "sports": "Badminton, Football, Tennis",
+                    "sports_list": ["Badminton", "Football", "Tennis"],
+                    "amenities": "Floodlights, Parking, Changing Rooms",
+                    "amenities_list": ["Floodlights", "Parking", "Changing Rooms"],
+                    "avg_rating": 4.6,
+                    "starting_price": 500.0,
+                    "image": "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&w=1000&q=80"
+                })
+            return jsonify({"facilities": live_places, "city": city}), 200
+    except Exception as e:
+        return jsonify({"error": str(e), "facilities": []}), 500
 
 @app.route('/api/venues/<int:venue_id>', methods=['GET'])
 def get_venue_details(venue_id):
@@ -608,6 +657,7 @@ def owner_facilities(current_user):
     description = data.get('description', '').strip()
     address = data.get('address', '').strip()
     location = data.get('location', '').strip()
+    city = data.get('city', '').strip() or 'Mumbai'
     sports = data.get('sports', '').strip()
     amenities = data.get('amenities', '').strip()
     image = data.get('image', '').strip() or 'https://images.unsplash.com/photo-1529900748604-07564a03e7a6?w=800'
@@ -616,9 +666,9 @@ def owner_facilities(current_user):
         return jsonify({"error": "Required fields missing."}), 400
 
     facility_id = execute_db('''
-        INSERT INTO facilities (owner_id, name, description, address, location, sports, amenities, image, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'Pending')
-    ''', (current_user['id'], name, description, address, location, sports, amenities, image))
+        INSERT INTO facilities (owner_id, name, description, address, location, city, sports, amenities, image, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'Pending')
+    ''', (current_user['id'], name, description, address, location, city, sports, amenities, image))
 
     return jsonify({"message": "Facility submitted! Awaiting admin approval.", "facility_id": facility_id}), 201
 

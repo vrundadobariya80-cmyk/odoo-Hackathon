@@ -34,6 +34,8 @@ export const getCurrentUser = () => API.get('/auth/me');
 
 // Venues & Courts Services
 export const fetchVenues = (params) => API.get('/venues', { params });
+export const fetchLiveVenues = (city) => API.get('/venues/live', { params: { city } });
+export const fetchCities = () => API.get('/cities');
 export const fetchVenueDetails = (id) => API.get(`/venues/${id}`);
 export const fetchCourts = (facilityId) => API.get(`/courts/${facilityId}`);
 export const fetchSlots = (courtId, date) => API.get(`/slots/${courtId}`, { params: { date } });

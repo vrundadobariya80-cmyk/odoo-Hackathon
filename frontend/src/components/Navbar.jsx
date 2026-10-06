@@ -1,10 +1,37 @@
-import React from 'react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, NavLink, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const [selectedCity, setSelectedCity] = useState(
+    searchParams.get('city') || localStorage.getItem('selected_city') || 'All Cities'
+  );
+
+  const cities = [
+    "All Cities", "Mumbai", "Delhi NCR", "Bengaluru", "Pune", 
+    "Ahmedabad", "Surat", "Jaipur", "Hyderabad", "Chennai", "Kolkata"
+  ];
+
+  useEffect(() => {
+    const currentCity = searchParams.get('city');
+    if (currentCity) {
+      setSelectedCity(currentCity);
+    }
+  }, [searchParams]);
+
+  const handleCitySelect = (city) => {
+    setSelectedCity(city);
+    localStorage.setItem('selected_city', city);
+    if (city === 'All Cities') {
+      navigate('/venues');
+    } else {
+      navigate(`/venues?city=${encodeURIComponent(city)}`);
+    }
+  };
 
   const handleLogout = async () => {
     await logout();
@@ -14,10 +41,42 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark qc-navbar sticky-top">
       <div className="container">
-        <Link className="navbar-brand qc-brand" to="/">
-          <i className="bi bi-lightning-charge-fill text-warning"></i>
-          Quick<span>Court</span>
-        </Link>
+        <div className="d-flex align-items-center me-3">
+          <Link className="navbar-brand qc-brand me-3" to="/">
+            <i className="bi bi-lightning-charge-fill text-warning"></i>
+            Quick<span>Court</span>
+          </Link>
+
+          {/* City Selector Dropdown */}
+          <div className="dropdown me-2">
+            <button
+              className="btn btn-sm btn-outline-light dropdown-toggle rounded-pill px-3 py-1 d-flex align-items-center gap-1"
+              type="button"
+              id="cityDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              style={{ fontSize: '0.85rem' }}
+            >
+              <i className="bi bi-geo-alt-fill text-warning"></i>
+              <span className="fw-semibold text-truncate" style={{ maxWidth: '110px' }}>{selectedCity}</span>
+            </button>
+            <ul className="dropdown-menu shadow border-0 mt-2" aria-labelledby="cityDropdown" style={{ maxHeight: '300px', overflowY: 'auto' }}>
+              <li className="dropdown-header text-uppercase small fw-bold text-muted">Select Your City</li>
+              {cities.map((c) => (
+                <li key={c}>
+                  <button
+                    className={`dropdown-item py-2 small d-flex justify-content-between align-items-center ${selectedCity === c ? 'active bg-primary text-white fw-bold' : ''}`}
+                    onClick={() => handleCitySelect(c)}
+                  >
+                    {c}
+                    {selectedCity === c && <i className="bi bi-check-lg ms-2"></i>}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
         <button
           className="navbar-toggler"
           type="button"
@@ -31,7 +90,7 @@ const Navbar = () => {
         </button>
 
         <div className="collapse navbar-collapse" id="navbarQuickCourt">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-2">
             <li className="nav-item">
               <NavLink className={({ isActive }) => `nav-link qc-nav-link ${isActive ? 'active' : ''}`} to="/">
                 Home

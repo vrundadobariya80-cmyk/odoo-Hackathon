@@ -8,6 +8,7 @@ const AddFacility = () => {
   const [description, setDescription] = useState('');
   const [address, setAddress] = useState('');
   const [location, setLocation] = useState('');
+  const [city, setCity] = useState('Mumbai');
   const [sports, setSports] = useState('Badminton, Football');
   const [amenities, setAmenities] = useState('Floodlights, Changing Rooms, Parking');
   const [image, setImage] = useState('');
@@ -27,6 +28,7 @@ const AddFacility = () => {
         description,
         address,
         location,
+        city,
         sports,
         amenities,
         image
@@ -78,23 +80,43 @@ const AddFacility = () => {
                 </div>
 
                 <div className="row g-3 mb-3">
-                  <div className="col-md-6">
+                  <div className="col-md-4">
+                    <label className="form-label fw-semibold small text-muted">City</label>
+                    <select
+                      className="form-select"
+                      required
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                    >
+                      <option value="Mumbai">Mumbai</option>
+                      <option value="Delhi NCR">Delhi NCR</option>
+                      <option value="Bengaluru">Bengaluru</option>
+                      <option value="Pune">Pune</option>
+                      <option value="Ahmedabad">Ahmedabad</option>
+                      <option value="Surat">Surat</option>
+                      <option value="Jaipur">Jaipur</option>
+                      <option value="Hyderabad">Hyderabad</option>
+                      <option value="Chennai">Chennai</option>
+                      <option value="Kolkata">Kolkata</option>
+                    </select>
+                  </div>
+                  <div className="col-md-4">
                     <label className="form-label fw-semibold small text-muted">Full Address</label>
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="Opp. Rajpath Club, Sindhu Bhavan Road"
+                      placeholder="e.g. Veera Desai Road, Andheri West"
                       required
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
                     />
                   </div>
-                  <div className="col-md-6">
+                  <div className="col-md-4">
                     <label className="form-label fw-semibold small text-muted">Location / Area</label>
                     <input
                       type="text"
                       className="form-control"
-                      placeholder="e.g. Sindhu Bhavan Road, Ahmedabad"
+                      placeholder="e.g. Andheri West, Mumbai"
                       required
                       value={location}
                       onChange={(e) => setLocation(e.target.value)}

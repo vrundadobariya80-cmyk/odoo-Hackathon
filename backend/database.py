@@ -112,13 +112,17 @@ def init_db(skip_auto_seed=False):
         )
     ''')
 
-    # Ensure latitude & longitude columns exist in facilities table
+    # Ensure latitude, longitude & city columns exist in facilities table
     try:
         cursor.execute("ALTER TABLE facilities ADD COLUMN latitude REAL DEFAULT 23.0225")
     except Exception:
         pass
     try:
         cursor.execute("ALTER TABLE facilities ADD COLUMN longitude REAL DEFAULT 72.5714")
+    except Exception:
+        pass
+    try:
+        cursor.execute("ALTER TABLE facilities ADD COLUMN city TEXT DEFAULT 'Ahmedabad'")
     except Exception:
         pass
 

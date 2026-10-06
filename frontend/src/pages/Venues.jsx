@@ -9,8 +9,10 @@ import LoadingSpinner from '../components/LoadingSpinner';
 const Venues = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
+  const cityParam = searchParams.get('city') || '';
   const [search, setSearch] = useState(searchParams.get('search') || '');
   const [sport, setSport] = useState(searchParams.get('sport') || '');
+  const [city, setCity] = useState(cityParam);
   const [priceMax, setPriceMax] = useState(Number(searchParams.get('price_max')) || 2000);
   const [ratingMin, setRatingMin] = useState(searchParams.get('rating_min') || '');
   const [sortBy, setSortBy] = useState(searchParams.get('sort_by') || 'rating');
@@ -21,17 +23,23 @@ const Venues = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    setCity(searchParams.get('city') || '');
+    setSearch(searchParams.get('search') || '');
+  }, [searchParams]);
+
   const loadData = async () => {
     setLoading(true);
     try {
       const params = {
         search,
         sport,
+        city: city !== 'All Cities' ? city : undefined,
         price_max: priceMax,
         rating_min: ratingMin ? Number(ratingMin) : undefined,
         sort_by: sortBy,
         page,
-        limit: 6
+        limit: 9
       };
       const res = await fetchVenues(params);
       setFacilities(res.data.facilities || []);
@@ -46,7 +54,7 @@ const Venues = () => {
 
   useEffect(() => {
     loadData();
-  }, [sport, priceMax, ratingMin, sortBy, page]);
+  }, [sport, city, priceMax, ratingMin, sortBy, page]);
 
   const handleSearchSubmit = () => {
     setPage(1);
@@ -56,12 +64,15 @@ const Venues = () => {
   const handleResetFilters = () => {
     setSearch('');
     setSport('');
+    setCity('');
     setPriceMax(2000);
     setRatingMin('');
     setSortBy('rating');
     setPage(1);
     setSearchParams({});
   };
+
+  const displayLocationText = city && city !== 'All Cities' ? `in ${city}` : 'across India';
 
   return (
     <div className="py-5">
@@ -71,7 +82,8 @@ const Venues = () => {
           <div className="col-md-6">
             <h2 className="fw-bold mb-1">Browse Sports Facilities</h2>
             <p className="text-muted small mb-0">
-              Showing {totalCount} verified sports venues in Ahmedabad
+              <i className="bi bi-geo-alt-fill text-primary me-1"></i>
+              Showing {totalCount} verified sports venues <span className="fw-semibold text-dark">{displayLocationText}</span>
             </p>
           </div>
           <div className="col-md-6 mt-3 mt-md-0">
@@ -83,6 +95,8 @@ const Venues = () => {
           {/* Sidebar Filters */}
           <div className="col-lg-3">
             <FilterPanel
+              city={city}
+              setCity={setCity}
               sport={sport}
               setSport={setSport}
               priceMax={priceMax}

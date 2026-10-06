@@ -27,7 +27,7 @@ const Home = () => {
     { title: 'Table Tennis', icon: 'bi-disc', count: '6 Tables' }
   ];
 
-  const quickLocations = ['Bodakdev', 'Satellite', 'Sindhu Bhavan', 'SG Highway'];
+  const quickLocations = ['Mumbai', 'Delhi NCR', 'Bengaluru', 'Pune', 'Ahmedabad', 'Surat', 'Jaipur', 'Hyderabad'];
 
   const features = [
     {
@@ -56,23 +56,23 @@ const Home = () => {
     {
       id: 1,
       name: 'Rohan Sharma',
-      role: 'Badminton Player • Bodakdev',
+      role: 'Badminton Player • Mumbai',
       avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150',
-      comment: 'QuickCourt made reserving box cricket turfs in Bodakdev so smooth! Booked our 8 PM night slot in under 30 seconds.'
+      comment: 'QuickCourt made reserving box cricket turfs in Andheri West so smooth! Booked our 8 PM night slot in under 30 seconds.'
     },
     {
       id: 2,
       name: 'Priya Patel',
-      role: 'Tennis Player • Satellite',
+      role: 'Tennis Player • Bengaluru',
       avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150',
-      comment: 'Loved the option to pay cash at the court. The floodlights and synthetic mat flooring quality were top tier!'
+      comment: 'Loved the option to pay cash at the court. The floodlights and synthetic mat flooring quality at Play Arena were top tier!'
     },
     {
       id: 3,
       name: 'Aman Verma',
-      role: 'Football Captain • Sindhu Bhavan',
+      role: 'Football Captain • Delhi NCR',
       avatar: 'https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?w=150',
-      comment: 'Awesome platform for facility owners and players alike. Instant confirmation receipt and clean UI!'
+      comment: 'Awesome platform for facility owners and players alike across India. Instant confirmation receipt and clean UI!'
     }
   ];
 
@@ -129,7 +129,7 @@ const Home = () => {
               <div className="mb-3.5">
                 <div className="qc-live-ticker shadow-sm">
                   <span className="live-dot"></span>
-                  <span><strong>Live Update:</strong> 2 mins ago, 10-over Cricket Slot booked at Bodakdev Arena</span>
+                  <span><strong>Live Update:</strong> 2 mins ago, Badminton Slot booked at Play Arena Sarjapur, Bengaluru</span>
                 </div>
               </div>
 
@@ -141,7 +141,7 @@ const Home = () => {
               </h1>
               
               <p className="hero-subheading">
-                Discover 50+ FIFA-standard turfs and BWF synthetic indoor courts in Ahmedabad. Instant hourly slot locking with zero manual phone confirmation.
+                Discover 100+ FIFA-standard turfs and BWF synthetic indoor courts across top Indian cities. Instant hourly slot locking with zero manual phone confirmation.
               </p>
 
               {/* Glassmorphism Quick Search Box */}
@@ -189,14 +189,14 @@ const Home = () => {
 
                 {/* Quick Location Filter Pills */}
                 <div className="d-flex align-items-center gap-2 mt-2.5 pt-2 border-top border-dark border-opacity-10">
-                  <span className="text-muted fs-7 fw-semibold">Popular Areas:</span>
+                  <span className="text-muted fs-7 fw-semibold">Popular Cities:</span>
                   <div className="d-flex flex-wrap gap-1.5">
                     {quickLocations.map((loc, idx) => (
                       <button
                         key={idx}
                         type="button"
                         className="location-chip"
-                        onClick={() => setSearchQuery(loc)}
+                        onClick={() => navigate(`/venues?city=${encodeURIComponent(loc)}`)}
                       >
                         {loc}
                       </button>
